@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ContentAI Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <h1 class="text-2xl font-bold text-blue-600">ContentAI Pro</h1>
+                <div>
+                    <span class="text-gray-600 mr-4">Credits: <span id="credits">500</span></span>
+                    <button onclick="logout()" class="text-gray-600 hover:text-gray-900">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Sidebar -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-xl font-bold mb-4">Content Types</h2>
+                <ul class="space-y-2">
+                    <li><button onclick="selectType('social')" class="w-full text-left px-4 py-2 rounded hover:bg-blue-50">Social Media Post</button></li>
+                    <li><button onclick="selectType('blog')" class="w-full text-left px-4 py-2 rounded hover:bg-blue-50">Blog Post</button></li>
+                    <li><button onclick="selectType('email')" class="w-full text-left px-4 py-2 rounded hover:bg-blue-50">Email Copy</button></li>
+                    <li><button onclick="selectType('product')" class="w-full text-left px-4 py-2 rounded hover:bg-blue-50">Product Description</button></li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="md:col-span-2">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-2xl font-bold mb-4">Generate Content</h2>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-bold mb-2">Topic</label>
+                        <input type="text" id="topic" placeholder="e.g., AI in healthcare" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-bold mb-2">Tone</label>
+                        <select id="tone" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option>Professional</option>
+                            <option>Casual</option>
+                            <option>Funny</option>
+                            <option>Inspirational</option>
+                        </select>
+                    </div>
+
+                    <button onclick="generateContent()" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-bold">Generate Content</button>
+
+                    <div id="result" class="mt-6 hidden">
+                        <h3 class="font-bold text-lg mb-2">Generated Content:</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <p id="generatedText" class="text-gray-800"></p>
+                        </div>
+                        <button onclick="copyToClipboard()" class="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">Copy to Clipboard</button>
+                    </div>
+                </div>
+
+                <!-- Usage Stats -->
+                <div class="bg-white rounded-lg shadow p-6 mt-8">
+                    <h3 class="text-xl font-bold mb-4">Usage This Month</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="text-center p-4 bg-blue-50 rounded-lg">
+                            <div class="text-3xl font-bold text-blue-600">247</div>
+                            <div class="text-gray-600">Posts Generated</div>
+                        </div>
+                        <div class="text-center p-4 bg-green-50 rounded-lg">
+                            <div class="text-3xl font-bold text-green-600">253</div>
+                            <div class="text-gray-600">Credits Remaining</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentType = 'social';
+
+        function selectType(type) {
+            currentType = type;
+        }
+
+        async function generateContent() {
+            const topic = document.getElementById('topic').value;
+            const tone = document.getElementById('tone').value;
+
+            if (!topic) {
+                alert('Please enter a topic');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('generatedText').textContent = 'Generating...';
+            document.getElementById('result').classList.remove('hidden');
+
+            try {
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ type: currentType, topic, tone })
+                });
+
+                const data = await response.json();
+                document.getElementById('generatedText').textContent = data.content;
+
+                // Update credits
+                const credits = parseInt(document.getElementById('credits').textContent);
+                document.getElementById('credits').textContent = credits - 1;
+            } catch (error) {
+                // Demo mode - generate sample content
+                const sampleContent = generateDemoContent(topic, tone);
+                document.getElementById('generatedText').textContent = sampleContent;
+            }
+        }
+
+        function generateDemoContent(topic, tone) {
+            const samples = {
+                'Professional': `Breaking: ${topic} is transforming industries. Here's what you need to know:
+
+✓ Key insights from recent research
+✓ Impact on business operations
+✓ Future predictions
+
+What's your take? Share your thoughts below.`,
+                'Casual': `Hey! Just learned something cool about ${topic} 🚀
+
+This is literally changing the game. If you're not paying attention to this, you should be!
+
+Who else is excited about this? Drop a 👋 below!`,
+                'Funny': `${topic}? More like ${topic.toUpperCase()}! 😂
+
+Seriously though, this stuff is wild. Remember when we thought flying cars were the future? Well, turns out ${topic} is even cooler.
+
+10/10 would recommend paying attention to this.`,
+                'Inspirational': `Your journey with ${topic} starts today. 🌟
+
+Every expert was once a beginner. Every revolution started with a single step. This is your moment to embrace ${topic} and create the future you envision.
+
+Believe in possibilities. Act on your dreams. Make it happen.`
+            };
+
+            return samples[tone] || samples['Professional'];
+        }
+
+        function copyToClipboard() {
+            const text = document.getElementById('generatedText').textContent;
+            navigator.clipboard.writeText(text);
+            alert('Copied to clipboard!');
+        }
+
+        function logout() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
