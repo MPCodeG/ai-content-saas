@@ -1,0 +1,16 @@
+{
+  "name": "contentai-pro",
+  "version": "1.0.0",
+  "description": "AI Content Generation SaaS Platform",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "stripe": "^14.0.0"
+  },
+  "keywords": ["ai", "content", "saas", "stripe", "automation"],
+  "author": "Your Name",
+  "license": "MIT"
+}
