@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ContentAI Pro - AI Content Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-blue-600">ContentAI Pro</h1>
+                </div>
+                <div>
+                    <a href="#pricing" class="text-gray-600 hover:text-gray-900 px-4">Pricing</a>
+                    <a href="dashboard.html" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-5xl font-bold mb-6">Generate High-Quality Content in Seconds</h1>
+            <p class="text-xl mb-8">AI-powered content generation for social media, blogs, and marketing</p>
+            <a href="#pricing" class="bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100">Start Free Trial</a>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12">Powerful Features</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-6">
+                    <div class="text-4xl mb-4">🚀</div>
+                    <h3 class="text-xl font-bold mb-2">Instant Generation</h3>
+                    <p class="text-gray-600">Generate content in seconds with advanced AI</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="text-4xl mb-4">📱</div>
+                    <h3 class="text-xl font-bold mb-2">Multi-Platform</h3>
+                    <p class="text-gray-600">Optimized for Twitter, LinkedIn, Instagram, and more</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="text-4xl mb-4">🎯</div>
+                    <h3 class="text-xl font-bold mb-2">SEO Optimized</h3>
+                    <p class="text-gray-600">Content designed to rank and engage</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pricing Section -->
+    <div id="pricing" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12">Simple, Transparent Pricing</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Starter Plan -->
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <h3 class="text-2xl font-bold mb-4">Starter</h3>
+                    <div class="text-4xl font-bold mb-6">$29<span class="text-lg text-gray-600">/mo</span></div>
+                    <ul class="mb-8 space-y-3">
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> 100 posts/month</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Social media content</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Email support</li>
+                    </ul>
+                    <button onclick="subscribe('price_starter')" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Get Started</button>
+                </div>
+
+                <!-- Professional Plan -->
+                <div class="bg-blue-600 text-white rounded-lg shadow-lg p-8 transform scale-105">
+                    <div class="bg-yellow-400 text-blue-900 text-xs font-bold px-3 py-1 rounded-full inline-block mb-4">MOST POPULAR</div>
+                    <h3 class="text-2xl font-bold mb-4">Professional</h3>
+                    <div class="text-4xl font-bold mb-6">$79<span class="text-lg">/mo</span></div>
+                    <ul class="mb-8 space-y-3">
+                        <li class="flex items-center"><span class="mr-2">✓</span> 500 posts/month</li>
+                        <li class="flex items-center"><span class="mr-2">✓</span> All content types</li>
+                        <li class="flex items-center"><span class="mr-2">✓</span> Blog post generator</li>
+                        <li class="flex items-center"><span class="mr-2">✓</span> Priority support</li>
+                    </ul>
+                    <button onclick="subscribe('price_pro')" class="w-full bg-white text-blue-600 py-3 rounded-lg hover:bg-gray-100">Get Started</button>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <h3 class="text-2xl font-bold mb-4">Enterprise</h3>
+                    <div class="text-4xl font-bold mb-6">$199<span class="text-lg text-gray-600">/mo</span></div>
+                    <ul class="mb-8 space-y-3">
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Unlimited posts</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> API access</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Custom AI training</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Dedicated support</li>
+                    </ul>
+                    <button onclick="subscribe('price_enterprise')" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Get Started</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; 2025 ContentAI Pro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const stripe = Stripe('pk_test_YOUR_PUBLISHABLE_KEY'); // Replace with your Stripe key
+
+        async function subscribe(priceId) {
+            try {
+                const response = await fetch('/api/create-checkout', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ priceId })
+                });
+                const session = await response.json();
+                await stripe.redirectToCheckout({ sessionId: session.id });
+            } catch (error) {
+                alert('Payment system not configured yet. See README for setup instructions.');
+            }
+        }
+    </script>
+</body>
+</html>
